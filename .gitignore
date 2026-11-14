@@ -1,0 +1,52 @@
+# ── Abhängigkeiten ────────────────────────────────────────────────────────────
+# 34 MB, jederzeit aus package-lock.json wiederherstellbar mit `npm ci`.
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ── Build-Artefakte, die NICHT ausgeliefert werden ────────────────────────────
+# app.js selbst ist bewusst NICHT ignoriert: es ist zusammen mit index.html,
+# og.png, favicon.svg und apple-touch-icon.png das Deploy-Paket (siehe
+# DEPLOY.md). Der Server zu Hause zieht genau diese Dateien aus Git und baut
+# nichts selbst.
+# Die Source-Map dagegen ist 2 MB groß und legt den kompletten Quelltext offen.
+app.js.map
+
+# ── Werkzeug- und Editor-Kram ─────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+
+
+# ── Zwischenstände ────────────────────────────────────────────────────────────
+__seed.html
+__scroll.html
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+
+# ── Geheimnisse ───────────────────────────────────────────────────────────────
+# Aktuell hat das Projekt keine, aber falls je ein Deploy-Key, ein API-Token
+# oder eine .env dazukommt: hier steht sie schon drin, bevor sie versehentlich
+# im ersten Commit landet.
+.env
+.env.*
+*.pem
+*.key
+id_rsa*
+secrets.json
+
+# ── Bilder ────────────────────────────────────────────────────────────────────
+# Pauschal raus (hält u.a. die 3,3 MB ungenutzten public/images draußen) …
+*.png
+# … ABER die zwei, die ausgeliefert werden, müssen drinbleiben: og.png ist das
+# Vorschaubild beim Teilen, apple-touch-icon.png das Symbol auf iOS. Ohne diese
+# beiden Zeilen zieht der Server sie nie aus Git und die Seite verliert sie.
+!og.png
+!apple-touch-icon.png
+
+# ── Nur lokal ─────────────────────────────────────────────────────────────────
+# Server-Aufbau (VPS, WireGuard, LXC, IPs) gehört nicht in ein öffentliches Repo.
+DEPLOY.md
+GITHUB.md

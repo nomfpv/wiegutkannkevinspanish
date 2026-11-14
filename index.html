@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="canonical" href="https://wiegutkannkevinspanisch.de/" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0c0d0f" media="(prefers-color-scheme: dark)" />
+
+  <!-- meta:auto — von scripts/og.mjs aus src/lib/data.js erzeugt, nicht von Hand ändern -->
+  <title>kevin.es · Spanisch-Tracker</title>
+  <meta name="description" content="Wie viel Spanisch kann Kevin wirklich? Jedes Wort mitgezählt aus 240 Folgen Edeltalk und 30 YouTube-Videos, mit Folge und Häufigkeit." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="kevin.es" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:url" content="https://wiegutkannkevinspanisch.de/" />
+  <meta property="og:title" content="Kevin kann 69 Wörter Spanisch." />
+  <meta property="og:description" content="Jedes Wort mitgezählt aus 240 Folgen Edeltalk und 30 YouTube-Videos, mit Folge und Häufigkeit." />
+  <meta property="og:image" content="https://wiegutkannkevinspanisch.de/og.png?v=69" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Kevin kann 69 Wörter Spanisch." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- /meta:auto -->
+
+  <!-- Set theme before first paint to avoid a flash -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('kevin.es.theme');
+        if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        if (t === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Tailwind und die beiden Schriften kommen jetzt aus einer einzigen,
+       selbst ausgelieferten Datei. Erzeugt von `npm run build`, Quelle in
+       src/styles.css + tailwind.config.cjs — dort steht auch, warum.
+       Vorher standen hier: cdn.tailwindcss.com (407 kB Compiler, der das CSS
+       bei JEDEM Seitenaufruf im Browser erzeugt hat) und zwei Verbindungen zu
+       Google Fonts. Nicht von Hand aendern, styles.css wird ueberschrieben. -->
+  <link rel="stylesheet" href="styles.css?v=c161942603" />
+
+  <style>
+    :root {
+      --bg: 255 255 255;
+      --card: 255 255 255;
+      --cloud: 244 244 246;
+      --ink: 24 24 27;
+      --ink-soft: 99 99 105;
+      --hair: 214 214 219;
+      --apple: 10 99 214;   /* link/data accent — AA as text on light */
+      --ok: 22 143 74;
+      --no: 200 45 45;
+
+      /* Elevation. Two layers per step: a tight contact shadow that anchors the
+         edge, a wide soft one that lifts it. A single blurry shadow is what
+         makes a surface look like a sticker instead of a sheet of paper. */
+      --lift-1: 0 1px 2px rgb(17 19 24 / .05), 0 2px 10px -3px rgb(17 19 24 / .07);
+      --lift-2: 0 1px 2px rgb(17 19 24 / .06), 0 10px 28px -8px rgb(17 19 24 / .14);
+      --sheen: inset 0 1px 0 rgb(255 255 255 / .5);
+    }
+    .dark {
+      --bg: 12 13 15;       /* #0c0d0f — near-black base, not pitch black */
+      --card: 26 27 31;     /* #1a1b1f — clearly elevated surface */
+      --cloud: 18 19 22;    /* #121316 — subtle section between bg and card */
+      --ink: 237 238 241;
+      --ink-soft: 157 159 167;
+      --hair: 43 45 51;     /* #2b2d33 — visible hairline on bg and card */
+      --apple: 96 165 255;  /* lighter accent — AA as text on dark */
+      --ok: 61 214 106;
+      --no: 255 99 92;
+
+      /* Im Dunkeln trägt nicht der Schatten, sondern die Lichtkante: eine
+         hauchdünne helle Linie an der Oberkante, als fiele Licht von oben. */
+      --lift-1: 0 1px 2px rgb(0 0 0 / .45), 0 4px 16px -6px rgb(0 0 0 / .5);
+      --lift-2: 0 2px 4px rgb(0 0 0 / .5), 0 14px 36px -10px rgb(0 0 0 / .65);
+      --sheen: inset 0 1px 0 rgb(255 255 255 / .07);
+    }
+
+    html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    body {
+      background: rgb(var(--bg));
+      color: rgb(var(--ink));
+      font-family: "Schibsted Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-feature-settings: "ss01";
+    }
+
+    /* ── Type scale ───────────────────────────────────────────────────────────
+       Vorher standen sechzehn verschiedene Schriftgrößen als Einzelwerte in den
+       Komponenten (text-[11px] bis text-[2.6rem]). Das ist der Unterschied
+       zwischen „sieht ordentlich aus" und „ist gebaut": Ab hier gibt es acht
+       Stufen mit festem Verhältnis (~1.27), jede mit ihrer eigenen Zeilenhöhe
+       und Laufweite. Die vier Textstufen sind fest, die vier Überschriftstufen
+       wachsen fließend mit dem Fenster, statt an einem Breakpoint zu springen.
+
+       Die Klassen setzen bewusst NUR Größe, Zeilenhöhe und Laufweite. Gewicht
+       und Umbruch bleiben bei Tailwind (font-semibold, text-balance), sonst
+       streiten sich zwei Systeme um dieselbe Eigenschaft. */
+    :root {
+      --fs-label: 0.75rem;      /* 12px — Mono-Marginalien, Achsen, Kennzahlen */
+      --fs-meta:  0.8125rem;    /* 13px — Beiwerk, Legenden */
+      --fs-ui:    0.9375rem;    /* 15px — Listen, Bedienelemente */
+      --fs-body:  1.0625rem;    /* 17px — Fließtext */
+      --fs-lead:  clamp(1.125rem, 1.02rem + 0.5vw,  1.3125rem);   /* 18 → 21 */
+      --fs-h3:    clamp(1.375rem, 1.21rem + 0.8vw,  1.6875rem);   /* 22 → 27 */
+      --fs-h2:    clamp(1.875rem, 1.42rem + 2.2vw,  2.625rem);    /* 30 → 42 */
+      --fs-h1:    clamp(2.5rem,   1.55rem + 4.7vw,  4.5rem);      /* 40 → 72 */
+    }
+
+    .t-h1 { font-size: var(--fs-h1); line-height: 1.02; letter-spacing: -0.035em; }
+    .t-h2 { font-size: var(--fs-h2); line-height: 1.06; letter-spacing: -0.03em; }
+    .t-h3 { font-size: var(--fs-h3); line-height: 1.18; letter-spacing: -0.02em; }
+    .t-lead  { font-size: var(--fs-lead);  line-height: 1.5; }
+    .t-body  { font-size: var(--fs-body);  line-height: 1.62; }
+    .t-ui    { font-size: var(--fs-ui);    line-height: 1.5; }
+    .t-meta  { font-size: var(--fs-meta);  line-height: 1.5; }
+    .t-label { font-size: var(--fs-label); line-height: 1.45; }
+
+    /* Helle Schrift auf dunklem Grund wirkt leichter und braucht mehr Luft. */
+    .dark .t-body, .dark .t-lead { line-height: 1.68; }
+
+    /* ── Oberflächen ──────────────────────────────────────────────────────────
+       Eine Karte war bisher eine 1px-Linie um einen Kasten, also ein Drahtgitter.
+       Eine Fläche braucht drei Dinge, um wie Material zu wirken: die Kante, den
+       Schatten und im Dunkeln die Lichtkante oben. */
+    .surface {
+      background: rgb(var(--card));
+      border: 1px solid rgb(var(--hair));
+      border-radius: 16px;
+      box-shadow: var(--lift-1), var(--sheen);
+    }
+    /* Nur für Flächen, die wirklich anfassbar sind. Eine Karte, die sich beim
+       Überfahren hebt, ohne dass man sie anklicken kann, lügt. */
+    .surface-int { transition: box-shadow .28s cubic-bezier(.22,1,.36,.99), border-color .28s ease, transform .28s cubic-bezier(.22,1,.36,.99); }
+    .surface-int:hover { box-shadow: var(--lift-2), var(--sheen); border-color: rgb(var(--ink-soft) / .38); transform: translateY(-2px); }
+
+    /* ── Links ────────────────────────────────────────────────────────────────
+       hover:underline schaltet die Linie hart an. Stattdessen liegt sie immer da,
+       nur blass, und färbt sich beim Überfahren durch. Der Abstand zur Grundlinie
+       hält sie aus den Unterlängen heraus. */
+    .lnk {
+      color: rgb(var(--apple));
+      text-decoration: underline;
+      text-decoration-color: rgb(var(--apple) / .32);
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 0.22em;
+      transition: text-decoration-color .2s ease;
+    }
+    .lnk:hover { text-decoration-color: rgb(var(--apple)); }
+
+    /* Keyboard focus (never removed without a replacement) */
+    :focus-visible { outline: 2px solid rgb(var(--apple)); outline-offset: 2px; border-radius: 6px; }
+
+    /* Coordinated theme cross-fade: applied only while toggling, then removed. */
+    .theme-transition, .theme-transition *, .theme-transition *::before, .theme-transition *::after {
+      transition: background-color .3s ease, border-color .3s ease, color .3s ease, fill .3s ease, stroke .3s ease, box-shadow .3s ease !important;
+    }
+
+    /* ---- Buttons (consistent, token-driven, AA contrast) ---- */
+    /* Der Hover war vorher ein opacity: .86 — der billigste aller Zustände: Die
+       Fläche wird durchsichtig und nimmt die Farbe des Hintergrunds an, statt
+       eine eigene zu haben. Jetzt mischt der Knopf echte Farbe und der Schatten
+       trägt die Bewegung: heben beim Überfahren, aufsetzen beim Drücken. */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 9999px; font-weight: 500; line-height: 1; white-space: nowrap; cursor: pointer; transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .12s cubic-bezier(.22,1,.36,.99); }
+    .btn-lg { padding: .8rem 1.5rem; font-size: var(--fs-ui); }
+    .btn-sm { padding: .45rem 1rem; font-size: var(--fs-meta); }
+    .btn-primary { background: rgb(var(--ink)); color: rgb(var(--bg)); box-shadow: var(--lift-1); }
+    .btn-primary:hover { background: color-mix(in oklab, rgb(var(--ink)) 87%, rgb(var(--bg))); box-shadow: var(--lift-2); transform: translateY(-1px); }
+    .btn-secondary { background: rgb(var(--card)); color: rgb(var(--ink)); border: 1px solid rgb(var(--hair)); box-shadow: var(--lift-1); }
+    .btn-secondary:hover { background: rgb(var(--cloud)); border-color: rgb(var(--ink-soft) / .38); box-shadow: var(--lift-2); transform: translateY(-1px); }
+    .btn:active { transform: translateY(1px); box-shadow: none; }
+
+    /* ---- Reveal: enhances an already-visible default (never gates content) ---- */
+    @keyframes revealUp { from { transform: translateY(16px); } to { transform: none; } }
+    [data-reveal].in { animation: revealUp .7s cubic-bezier(.22, 1, .36, .99) both; }
+    .d1 { animation-delay: .06s; } .d2 { animation-delay: .12s; } .d3 { animation-delay: .18s; } .d4 { animation-delay: .24s; }
+
+    /* ---- Bars grow via transform (no layout thrash); track clips the flat cap ---- */
+    .bar-fill { transform: scaleX(0); transform-origin: left center; transition: transform 1s cubic-bezier(.22, 1, .36, .99); will-change: transform; }
+    [data-reveal].in .bar-fill { transform: scaleX(var(--s)); }
+
+    /* Same idea standing up: the column keeps its height in the layout and only
+       grows visually, so nothing reflows and a 0 stays a 0. Full height is the
+       default and the entry comes from @starting-style below — the columns sit
+       above the fold, so tying them to the scroll class would only risk an
+       empty chart for no gain. */
+    .col-fill { transform: scaleY(1); transform-origin: bottom center; transition: transform .9s cubic-bezier(.22, 1, .36, .99) .1s; will-change: transform; }
+
+    /* Gentle float */
+    @keyframes floatSoft { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .float-soft { animation: floatSoft 7s ease-in-out infinite; }
+
+    /* Modal */
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(10px) scale(.985); } to { opacity: 1; transform: none; } }
+    .fade-in { animation: fadeIn .2s ease-out; }
+    .modal-in { animation: modalIn .28s cubic-bezier(.22, 1, .36, .99); }
+
+    /* ── Overdrive: living aurora + self-drawing chart + pointer tilt ── */
+    .aurora { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; opacity: .2;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 14%, transparent 46%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 14%, transparent 46%); }
+    .dark .aurora { opacity: .42; }
+    .aur-blob { position: absolute; width: 44rem; height: 44rem; border-radius: 9999px; filter: blur(80px); will-change: transform; }
+    .aur-1 { top: -20rem; left: -10rem; background: radial-gradient(circle at 32% 32%, rgb(var(--apple) / .9), transparent 62%); animation: drift1 17s ease-in-out infinite; }
+    .aur-2 { top: -24rem; right: -8rem; background: radial-gradient(circle at 60% 40%, rgba(139, 92, 246, .85), transparent 62%); animation: drift2 21s ease-in-out infinite; }
+    @keyframes drift1 { 0%,100% { transform: translate(-6%,-4%) scale(1); } 50% { transform: translate(12%,8%) scale(1.2); } }
+    @keyframes drift2 { 0%,100% { transform: translate(6%,0) scale(1.1); } 50% { transform: translate(-10%,10%) scale(.92); } }
+
+    /* Self-drawing chart: visible by default, entry via @starting-style (never ships blank) */
+    .chart-line { stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,.99) .2s; }
+    .chart-area { opacity: .09; transition: opacity .8s ease .6s; }
+    .chart-dot { opacity: 1; transform-box: fill-box; transform-origin: center; transition: opacity .4s ease, transform .45s cubic-bezier(.22,1,.36,.99); }
+    @starting-style {
+      .chart-line { stroke-dashoffset: 1; }
+      .chart-area { opacity: 0; }
+      .chart-dot { opacity: 0; transform: scale(.4); }
+      .col-fill { transform: scaleY(0); }
+    }
+
+    .tilt { transition: transform .3s cubic-bezier(.22,1,.36,.99); transform-style: preserve-3d; }
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-reveal].in { animation: none; }
+      .bar-fill { transition: none; transform: scaleX(var(--s)); }
+      .col-fill { transition: none; transform: scaleY(1); }
+      .float-soft, .fade-in, .modal-in { animation: none; }
+      .aur-1, .aur-2 { animation: none; }
+      .chart-line { transition: none; stroke-dashoffset: 0; }
+      .chart-area { transition: none; opacity: .09; }
+      .chart-dot { transition: none; opacity: 1; transform: none; }
+      .tilt { transition: none; }
+      /* Das Heben entfällt, die Farbwechsel bleiben — sonst fehlt die Rückmeldung. */
+      .surface-int, .btn { transition: box-shadow .2s ease, border-color .2s ease, background-color .2s ease; }
+      .surface-int:hover, .btn-primary:hover, .btn-secondary:hover, .btn:active { transform: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ── Eastereggs (nur aktiv, wenn der Punkt in der Wortmarke an ist) ───── */
+    @keyframes eiIn { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+    .ei-in { animation: eiIn .32s cubic-bezier(.22,1,.36,.99); }
+
+    @keyframes eiOben { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+    .ei-oben { animation: eiOben .34s cubic-bezier(.22,1,.36,.99); }
+
+    /* Der Papagei legt den Kopf schief, während er nachspricht. */
+    @keyframes eiWippe { 0%,100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+    .ei-wippe { animation: eiWippe .9s ease-in-out infinite; transform-origin: 50% 70%; }
+
+    /* Der Prüfbalken fährt von links zu, wie ein echter Schwärzer. */
+    @keyframes eiZensur { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    .ei-zensur { animation: eiZensur .28s cubic-bezier(.22,1,.36,.99); transform-origin: left center; }
+
+    /* Die Maßzeichnung fährt von unten ein. */
+    @keyframes eiPanel { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    .ei-panel { animation: eiPanel .4s cubic-bezier(.22,1,.36,.99); }
+
+    /* Reeze fällt. Beschleunigend wie unter Schwerkraft, dann ein kurzes
+       Aufsetzen — kein Federn, er fällt ja hin und springt nicht. */
+    @keyframes eiFaellt {
+      0% { transform: rotate(0deg); }
+      78% { transform: rotate(92deg); }
+      100% { transform: rotate(90deg); }
+    }
+    .ei-faellt { animation: eiFaellt .8s cubic-bezier(.55,.05,.9,.4) forwards; }
+    .ei-steht { transform: rotate(0deg); transition: transform .5s cubic-bezier(.22,1,.36,.99); }
+
+    /* Und davor läuft er. Mit leichtem Wippen, sonst schwebt er. */
+    @keyframes eiLauf { from { transform: translateX(-12vw); } to { transform: translateX(48vw); } }
+    .ei-lauf { animation: eiLauf 2.4s linear forwards; }
+    @keyframes eiBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+    .ei-bob { animation: eiBob .42s ease-in-out infinite; }
+
+    /* Der Stempel knallt auf und wackelt aus. */
+    @keyframes eiStempel {
+      0% { opacity: 0; transform: scale(2.6) rotate(-24deg); }
+      55% { opacity: 1; transform: scale(.94) rotate(-11deg); }
+      70% { transform: scale(1.03) rotate(-13deg); }
+      100% { opacity: 1; transform: scale(1) rotate(-12deg); }
+    }
+    .ei-stempel { animation: eiStempel .5s cubic-bezier(.3,1.2,.5,1) both; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ei-in, .ei-oben, .ei-zensur, .ei-panel { animation: none; }
+      .ei-wippe, .ei-bob { animation: none; }
+      .ei-stempel { animation: none; transform: rotate(-12deg); }
+      /* Endzustand ohne Bewegung: Er liegt trotzdem. */
+      .ei-faellt { animation: none; transform: rotate(90deg); }
+      .ei-lauf { animation: none; transform: translateX(48vw); }
+    }
+
+    /* Pegelanzeige im Soundboard, solange ein Wort läuft. */
+    @keyframes pulseBar { from { transform: scaleY(.35); } to { transform: scaleY(1); } }
+    @media (prefers-reduced-motion: reduce) {
+      [style*="pulseBar"] { animation: none !important; }
+    }
+
+    ::selection { background: rgb(var(--apple) / .18); }
+  </style>
+
+  <!-- Zugriffszaehlung, cookiefrei. Ohne dieses Skript zaehlt Umami nichts —
+       die Seite war dort seit dem 15.08.2026 angelegt, aber nirgends
+       eingebunden, deshalb stand die Statistik auf null. -->
+  <script defer src="https://umami.kokskatzen.de/script.js"
+          data-website-id="f51f5bb8-df41-423f-adc7-e39981b4399a"></script>
+</head>
+
+<body>
+  <!-- React mount point — app rendered by app.js (compiled from src/app.jsx via esbuild) -->
+  <div id="root"></div>
+  <script src="app.js?v=6c892219e1"></script>
+</body>
+</html>

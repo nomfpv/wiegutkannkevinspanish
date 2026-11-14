@@ -1,0 +1,28 @@
+{
+  "name": "kevin-es",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "kevin.es — clean, faktenbasierter Tracker von Kevins spanischem Wortschatz (React + esbuild)",
+  "scripts": {
+    "build": "npm run bundle && npm run css && node scripts/stamp.mjs",
+    "bundle": "esbuild src/app.jsx --bundle --outfile=app.js --format=iife --jsx=automatic --loader:.jsx=jsx --external:fs --external:path --external:crypto --minify",
+    "css": "tailwindcss -c tailwind.config.cjs -i src/styles.css -o styles.css --minify",
+    "dev": "node scripts/dev.mjs",
+    "serve": "node scripts/serve.mjs",
+    "start": "npm run build && node scripts/serve.mjs",
+    "extract": "node scripts/extract.mjs",
+    "og": "node scripts/og.mjs",
+    "zitate": "node scripts/build-zitate.mjs"
+  },
+  "dependencies": {
+    "fflate": "^0.8.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sql.js": "^1.14.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.1",
+    "tailwindcss": "^3.4.17"
+  }
+}
